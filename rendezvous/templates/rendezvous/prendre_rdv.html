@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Schedule an Appointment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --primary-color: #7155fa;
+            --light-bg: #f3f4f6;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+        }
+
+        .wrapper {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: stretch;
+            min-height: 100vh;
+        }
+
+        .form-section {
+            flex: 1;
+            padding: 60px 40px;
+            background: var(--white);
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        .form-container {
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: black;
+            font-size: 28px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            margin-bottom: 20px;
+            font-size: 15px;
+            background-color: #f9f9f9;
+            transition: 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary-color);
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(113, 85, 250, 0.2);
+            outline: none;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 12px 26px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #5d44d6;
+        }
+
+        .text-end {
+            text-align: right;
+        }
+
+        .image-section {
+            flex: 1;
+            background: url('https://img.freepik.com/photos-gratuite/calendrier-ordre-du-jour-reunion-evenement-rappel-calendrier-concept-graphique_53876-125181.jpg?uid=R139075755&ga=GA1.1.1834963810.1743916573&semt=ais_hybrid&w=740') center/cover no-repeat;
+            display: none;
+        }
+
+        .errorlist {
+            color: red;
+            font-size: 14px;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+
+        @media (min-width: 768px) {
+            .image-section {
+                display: block;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .back-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #6c757d;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: 0.3s ease;
+ }
+
+.back-btn:hover {
+    background-color: #495057;
+}
+
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="form-section">
+        <div class="form-container">
+            <h2>📅 Schedule an Appointment</h2>
+
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="errorlist">{{ field.errors }}</div>
+                    {% endif %}
+                {% endfor %}
+                <div class="button-group">
+                    <a href="{% url 'client_dashboard' %}" class="back-btn">Back</a>
+                    <button type="submit" class="submit-btn">Submit</button>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+
+    <div class="image-section"></div>
+</div>
+
+</body>
+</html>

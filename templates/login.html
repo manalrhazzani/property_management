@@ -1,0 +1,218 @@
+{% load static %}
+
+{% block content %}
+<section class="login-section">
+    <div class="container">
+        <div class="login-content">
+            <!-- Formulaire à gauche -->
+            <div class="login-text">
+                <h2>Login</h2>
+                <form method="post" id="loginForm">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <label for="id_username">Username</label>
+                        {{ form.username }}
+                        <i class="fas fa-user input-icon"></i>
+                        {% for error in form.username.errors %}
+                            <span class="error">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+
+                    <div class="input-group">
+                        <label for="id_password">Password</label>
+                        {{ form.password }}
+                        <i class="fas fa-lock input-icon"></i>
+                        {% for error in form.password.errors %}
+                            <span class="error">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+
+                    <button type="submit">Login</button>
+
+                    <div class="signup-link">
+                        Don't have an account? <a href="{% url 'signup' %}">Create an account</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Image à droite -->
+            <div class="image-container">
+                <img src="https://img.freepik.com/vecteurs-premium/securite-donnees-personnelles-email-mot-passe_999616-171.jpg?uid=R139075755&ga=GA1.1.1834963810.1743916573&semt=ais_hybrid&w=740" alt="Logo" class="login-image">
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Styles globaux */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #fdfdfd; /* Blanc cassé, simple et élégant */
+    background-image: url('https://www.transparenttextures.com/patterns/soft-wallpaper.png'); /* Texture subtile */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    color: #333;
+}
+
+/* Section login */
+.login-section {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('{% static "images/real-estate-bg.jpg" %}') no-repeat center center/cover;
+    background-size: cover;
+    opacity: 0.9;
+}
+
+/* Container for content */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+/* Content with form */
+.login-content {
+    display: flex;
+    justify-content: space-between; /* Ajouter pour espacer l'image et le formulaire */
+    background-color: rgba(255, 255, 255, 0.85);
+    padding: 3rem 4rem;
+    border-radius: 12px;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+    max-width: 900px; /* Augmenter la largeur totale pour l'image à côté */
+    width: 100%;
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Formulaire */
+.login-text {
+    flex: 1;
+    padding-right: 2rem; /* Un peu d'espace entre l'image et le formulaire */
+}
+
+/* Image container */
+.image-container {
+    flex-shrink: 0; /* L'image ne doit pas être réduite */
+    max-width: 500px; /* Limiter la taille de l'image */
+}
+
+.login-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+/* Header */
+.login-text h2 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* Input groups */
+.input-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.6rem;
+    font-weight: 500;
+    color: #2c3e50;
+    font-size: 1rem;
+}
+
+input, select {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #dcdfe1;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #fff;
+    transition: all 0.3s;
+}
+
+input:focus, select:focus {
+    border-color: #3498db;
+    background-color: #f5f5f5;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.2);
+    outline: none;
+}
+
+/* Icon inside input fields */
+.input-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #7f8c8d;
+}
+
+/* Submit button */
+button[type="submit"] {
+    width: 100%;
+    padding: 1rem;
+    background: #6c5ce7;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    background: #5040c98d;
+}
+
+/* Validation errors */
+.error {
+    color: #e74c3c;
+    font-size: 0.9rem;
+    margin-top: 0.3rem;
+    display: block;
+}
+
+/* Sign-up link */
+.signup-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    color: #7f8c8d;
+}
+
+.signup-link a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.signup-link a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+/* Form appearance animation */
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+{% endblock %}

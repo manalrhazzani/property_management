@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4">Liste des biens</h2>
+
+  <a href="{% url 'ajouter_bien' %}" class="btn btn-primary mb-3">Ajouter un bien</a>
+
+  <!-- Formulaire de recherche -->
+  <form method="get" action="{% url 'recherche_biens' %}" class="row g-3 mb-4">
+    <div class="col-md-4">
+      <input type="text" name="city" class="form-control" placeholder="City" value="{{ request.GET.city }}">
+    </div>
+    <div class="col-md-4">
+      <select name="type" class="form-select">
+        <option value="">Type</option>
+        <option value="house" {% if request.GET.type == "house" %}selected{% endif %}>House</option>
+        <option value="apartment" {% if request.GET.type == "apartment" %}selected{% endif %}>Apartment</option>
+        <option value="land" {% if request.GET.type == "land" %}selected{% endif %}>Land</option>
+        <option value="office" {% if request.GET.type == "office" %}selected{% endif %}>Office</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <input type="number" name="max_price" class="form-control" placeholder="Max Price" value="{{ request.GET.max_price }}">
+    </div>
+    <div class="col-md-2">
+      <input type="number" name="min_bedrooms" class="form-control" placeholder="Min Bedrooms" value="{{ request.GET.min_bedrooms }}">
+    </div>
+    <div class="col-md-1 d-grid">
+      <button type="submit" class="btn btn-success">Rechercher</button>
+    </div>
+  </form>
+
+  {% if biens %}
+    <div class="row">
+      {% for bien in biens %}
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          {% if bien.photo %}
+            <img src="{{ bien.photo.url }}" class="card-img-top" alt="Photo du bien" style="height: 200px; object-fit: cover;">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ bien.title }}</h5>
+            <p class="card-text">
+              <strong>Type :</strong> {{ bien.get_type_display }}<br>
+              <strong>Statut :</strong> {{ bien.get_status_display }}<br>
+              <strong>Prix :</strong> {{ bien.price }} €<br>
+              <strong>Superficie :</strong> {{ bien.area }} m²<br>
+              <strong>Chambres :</strong> {{ bien.bedroom }}<br>
+              <strong>Date :</strong> {{ bien.added_on|date:"d/m/Y" }}
+            </p>
+            <a href="{% url 'modifier_bien' bien.id %}" class="btn btn-sm btn-warning">Modifier</a>
+            <a href="{% url 'supprimer_bien' bien.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Confirmer la suppression ?');">Supprimer</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-info">Aucun bien trouvé.</div>
+  {% endif %}
+</div>
+{% endblock %}

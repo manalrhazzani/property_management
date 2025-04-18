@@ -1,0 +1,931 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Management</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<style>
+/* General Reset */
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #1f2937;
+            padding: 1rem 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* Logo section */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+        }
+
+        .logo-img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+
+        .logo-elegantlogo {
+            font-family: 'Dancing Script', cursive;
+            font-size: 36px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li a {
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .cta-btn {
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-btn:active {
+            transform: translateY(0);
+        }
+
+/* Hero Section */
+.hero {
+    background: url('https://static.rdc.moveaws.com/images/hero/default/2021-11/jpg/hp-hero-desktop.jpg') no-repeat center center/cover;
+    color: #fff;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hero h2 {
+    font-size: 3em;
+    font-weight: bold;
+    margin-top: -50px; /* Adjust the value to move it higher */
+}
+
+ 
+/* Services Section */
+.services {
+    background: #fff;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.services h2 {
+    font-size: 2.5em;
+    margin-bottom: 40px;
+}
+
+.service-cards {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.service-card {
+    background: #f9f9f9;
+    padding: 30px;
+    width: 280px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.service-card h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.service-card p {
+    font-size: 1em;
+    color: #555;
+}
+
+/* Properties Section */
+.properties {
+    padding: 60px 0;
+    background-color: #f9fafb;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.properties h2 {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 40px;
+    color: #1f2937;
+}
+
+.property-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.property-card {
+    background-color: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.property-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.property-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.property-card:hover img {
+    transform: scale(1.05);
+}
+
+.property-card h3 {
+    font-size: 22px;
+    color: #111827;
+    margin: 15px 20px 5px;
+}
+
+.property-card p {
+    color: #4b5563;
+    margin: 0 20px 15px;
+    font-size: 15px;
+}
+
+.property-card .cta-btn {
+    display: block;
+    margin: 0 20px 20px;
+    padding: 10px;
+    text-align: center;
+    background-color: #6c5ce7;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.property-card .cta-btn:hover {
+    background-color: #374151;
+}
+
+
+ 
+ 
+
+/* Footer */
+footer {
+    background: #fff;
+    color: #333;
+    text-align: center;
+    padding: 20px;
+}
+
+footer p {
+    font-size: 1em;
+}
+
+/* General form styling */
+.search-form {
+    background-color: #fff;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 1000px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Form inputs */
+.search-form input, 
+.search-form select {
+    width: 22%;
+    padding: 12px;
+    margin: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+}
+
+/* Button style */
+.search-form button {
+    width: 22%;
+    padding: 14px;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    margin: 10px;
+}
+
+.search-form button:hover {
+    background-color: #b7190e;
+}
+
+/* Make form more responsive for small screens */
+@media screen and (max-width: 768px) {
+    .search-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .search-form input, 
+    .search-form select, 
+    .search-form button {
+        width: 100%;
+        margin: 10px 0;
+    }
+}
+
+/* Font imports */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+
+span {
+    font-family: 'Lora', serif;
+    font-size: 32px;
+    font-weight: 700;
+    background: linear-gradient(45deg, #6c5ce7, #00b894);
+    -webkit-background-clip: text;
+    color: transparent;
+    display: inline;
+}
+
+span span {
+    font-weight: 700;
+    display: inline;
+}
+
+/* Navigation hover effect */
+.nav-links a:hover {
+    color: #3b82f6;
+     padding-bottom: 3px;
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+}
+
+/* Service Card Hover Effect */
+.service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 30px rgba(108, 92, 231, 0.2);
+}
+
+@media (max-width: 768px) {
+    .service-card {
+        width: 100%;
+    }
+}
+
+ 
+
+/* About Section Styles */
+.about-us {
+    padding: 50px 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.about-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.about-text {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.about-image {
+    flex: 1;
+    text-align: center;
+}
+
+.about-image img {
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+/* Footer */
+.footer {
+    background-color: #1f2937;
+    color: #ffffff;
+    padding: 40px 0 20px;
+    font-family: 'Segoe UI', sans-serif;
+    text-align: center;
+}
+
+/* Footer Container */
+.footer-container {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+/* Logo Section */
+.logo-section {
+    flex: 1;
+    min-width: 250px;
+}
+
+.logo-img {
+    width: 80px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.logo-elegantlogo {
+    font-size: 28px;
+    font-weight: bold;
+    color: #ffffff;
+    display: block;
+    margin-bottom: 15px;
+}
+
+/* Footer Sections */
+.footer-section {
+    flex: 1;
+    min-width: 200px;
+    margin-bottom: 20px;
+}
+
+.footer-section h4 {
+    color: #ffffff;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.footer-section p {
+    line-height: 1.6;
+    color: #d1d5db;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+    color: #d1d5db;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+    color: #ffffff;
+}
+
+/* Social Icons */
+.social-icons a {
+    color: #d1d5db;
+    margin-right: 15px;
+    font-size: 20px;
+    transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: #ffffff;
+}
+
+/* Footer Bottom Section */
+.footer-bottom {
+    margin-top: 30px;
+    border-top: 1px solid #374151;
+    padding-top: 15px;
+    font-size: 14px;
+    color: #9ca3af;
+}
+
+ /* Services Section */
+ #services {
+  background-color: #f4f7fc;
+  padding: 50px 0;
+  font-family: 'Arial', sans-serif;
+}
+
+.services-wrapper {
+  text-align: center;
+  margin: 0 auto;
+}
+
+  
+
+.services-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.service-card {
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 300px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.service-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.service-card:hover img {
+  transform: scale(1.1);
+}
+
+.service-content {
+  padding: 20px;
+}
+
+.service-content h3 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.service-content p {
+  font-size: 1rem;
+  color: #777;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .services-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .service-card {
+    width: 80%;
+    margin-bottom: 30px;
+  }
+}
+/* === Elegant Search Form === */
+form.row.g-3.mb-4 {
+  background-color: #ffffff;
+  padding: 25px 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+form input.form-control,
+form select.form-select {
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  padding: 12px 16px;
+  font-size: 15px;
+  background-color: #f9f9f9;
+  transition: 0.3s ease;
+  min-width: 180px;
+}
+
+form input.form-control:focus,
+form select.form-select:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+  outline: none;
+}
+
+form .btn-success {
+  background: #6c5ce7;
+  color: #fff;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: none;
+  transition: 0.3s ease;
+}
+
+form .btn-success:hover {
+  background: hsl(247, 74%, 66%);
+  color: #fff;
+}
+ 
+
+</style>
+  
+<body>
+ 
+        <!-- Header Section -->
+<header  >
+    <!-- Logo -->
+      <div class="logo">
+            <img src="{% static 'images/logo4.png' %}" alt="Logo" class="logo-img">
+            <span class="logo-elegantlogo">
+                ImmoManager
+            </span>
+        </div>
+    
+
+    <!-- Navigation Links -->
+    <nav style="background-color: #1e293b; padding: 20px;">
+      <ul class="nav-links" >
+        <li><a href="#home">Home</a></li>
+        <li><a href="#services" >Services</a></li>
+        <li><a href="{% url 'biens:liste_biens_client' %}" >Properties</a></li>
+        <li><a href="#contact" >Contact</a></li>
+        <li><a href="/utilisateurs/client" >Dashboard</a></li>
+      </ul>
+    </nav>
+
+    
+    
+
+    <!-- Auth Buttons -->
+    <div class="hero-buttons" style="display: flex; gap: 15px; align-items: center; margin-top: 10px;">
+        {% if user.is_authenticated %}
+        <a class="cta-btn" style="background: #6c5ce7; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: bold; display: flex; align-items: center; gap: 8px;">
+            <i class="fas fa-user-circle" style="font-size: 18px;"></i>
+            Welcome, {{ user.username }}
+          </a>
+        <a href="{% url 'logout' %}" class="cta-btn" style="background: #ef4444; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: bold;">Logout</a>
+        {% else %}
+            <a href="{% url 'signup' %}" class="cta-btn" style="background: #3b82f6; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: bold;">Sign Up</a>
+            <a href="{% url 'login' %}" class="cta-btn" style="background: #10b981; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: bold; transition: transform 0.3s ease;">Login</a>
+        {% endif %}
+    </div>
+</header>
+    
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h2>Managing Your Properties with Us</h2>
+            <form method="GET" action="{% url 'biens:recherche_biens_client' %}" class="row g-3 mb-4">
+                <div class="col-md-3">
+                  <input type="text" name="city" placeholder="City" class="form-control" value="{{ request.GET.city }}">
+                </div>
+                <div class="col-md-3">
+                  <select name="type" class="form-select">
+                    <option value="">Type</option>
+                    <option value="house" {% if request.GET.type == "house" %}selected{% endif %}>House</option>
+                    <option value="apartment" {% if request.GET.type == "apartment" %}selected{% endif %}>Apartment</option>
+                    <option value="land" {% if request.GET.type == "land" %}selected{% endif %}>Land</option>
+                    <option value="office" {% if request.GET.type == "office" %}selected{% endif %}>Office</option>
+                  </select>
+                </div>
+                <div class="col-md-2">
+                  <input type="number" name="max_price" class="form-control" placeholder="Max Price" value="{{ request.GET.max_price }}">
+                </div>
+                <div class="col-md-2">
+                  <input type="number" name="min_bedrooms" class="form-control" placeholder="Min Bedrooms" value="{{ request.GET.min_bedrooms }}">
+                </div>
+                <div class="col-md-2 d-grid">
+                  <button type="submit" class="btn btn-success">Search</button>
+                </div>
+              </form>
+            
+              <!-- Liste des biens stylée -->
+              {% if biens %}
+              <div class="row">
+                {% for bien in biens %}
+                <div class="col-md-4 mb-4">
+                  <div class="card h-100 shadow-sm border-0">
+                    {% if bien.photo %}
+                    <img src="{{ bien.photo.url }}" alt="{{ bien.title }}" class="card-img-top"
+                         style="height: 220px; object-fit: cover;">
+                    {% else %}
+                    <div class="bg-secondary text-white text-center py-5">Pas d'image</div>
+                    {% endif %}
+                    <div class="card-body">
+                      <h5 class="card-title" style="color: #2C3E50;">{{ bien.title }}</h5>
+                      <p class="card-text small text-muted">
+                        <strong>Type :</strong> {{ bien.type }}<br>
+                        <strong>Statut :</strong> {{ bien.status }}<br>
+                        <strong>Prix :</strong> {{ bien.price }} €<br>
+                        <strong>Superficie :</strong> {{ bien.area }} m²<br>
+                        <strong>Chambres :</strong> {{ bien.bedroom }}<br>
+                        <strong>Ajouté le :</strong> {{ bien.added_on|date:"d/m/Y" }}
+                      </p>
+                    </div>
+                    <div class="card-footer bg-white border-top-0 d-flex justify-content-end">
+                      <a href="{% url 'biens:detail_bien' bien.id %}" class="btn btn-sm text-white btn-gradient">
+                        Voir le détail
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+              {% else %}
+              <div class="alert alert-warning text-center mt-5">
+               </div>
+              {% endif %}
+            </div>
+            
+            
+             
+        </div>
+    </section>
+    <!-- Properties Section -->
+<section id="properties" class="properties">
+    <div class="container">
+        <h2 style="font-size: 40px; color: #1f2937; margin-bottom: 50px;">Our Properties</h2>
+        <div class="property-list">
+            <div class="property-card">
+                <img src="https://img.freepik.com/photos-premium/maison-est-marche-pour-15-millions_1221953-13937.jpg" alt="Luxury Villa">
+                <h3>Luxury Villa</h3>
+                <p>$1,500/month | 10 Bedrooms</p>
+                <a href="{% url 'biens:liste_biens_client' %}"class="cta-btn">View More</a>
+            </div>
+            <div class="property-card">
+                <img src="https://img.freepik.com/photos-gratuite/rendu-3d-luxe-salon-moderne-canape-tissu_105762-2186.jpg" alt="Modern Apartment">
+                <h3>Modern Apartment</h3>
+                <p>$1,200/month | 3 Bedrooms</p>
+                <a href="{% url 'biens:liste_biens_client' %}" class="cta-btn">View More</a>
+            </div>
+            <div class="property-card">
+                <img src="https://img.freepik.com/photos-gratuite/3d-rendu-interieur-bureau-moderne_1048-6608.jpg" alt="Cozy Studio">
+                <h3>Cozy Studio</h3>
+                <p>$800/month | 1 Bedroom</p>
+                <a href="{% url 'biens:liste_biens_client' %}"class="cta-btn">View More</a>
+            </div>
+            <div class="property-card">
+                <img src="https://img.freepik.com/photos-premium/maison-est-plage-piscine-vue-ocean_1300748-13938.jpg?uid=R139075755&ga=GA1.1.1818223811.1739516928&semt=ais_hybrid" alt="Beachfront House">
+                <h3>Beachfront House</h3>
+                <p>$2,000/month | 5 Bedrooms</p>
+                <a href="{% url 'biens:liste_biens_client' %}"class="cta-btn">View More</a>
+            </div>
+            <div class="property-card">
+                <img src="https://img.freepik.com/photos-premium/vue-imprenable-ville-moderne-depuis-appartement-luxe-chambre-est-decoree-dans-style-contemporain-planchers-bois-fonce-meubles_14117-271879.jpg?uid=R139075755&ga=GA1.1.1818223811.1739516928&semt=ais_hybrid" alt="Penthouse Suite">
+                <h3>Penthouse Suite</h3>
+                <p>$3,500/month | 4 Bedrooms</p>
+                <a href="{% url 'biens:liste_biens_client' %}" class="cta-btn">View More</a>
+            </div>
+            <div class="property-card">
+                <img src="https://img.freepik.com/photos-gratuite/maison-blanche-orange-cote-foret-plan-eau_198169-40.jpg?uid=R139075755&ga=GA1.1.1818223811.1739516928&semt=ais_hybrid" alt="Cabin Retreat">
+                <h3>Cabin Retreat</h3>
+                <p>$1,000/month | 2 Bedrooms</p>
+                <a href="{% url 'biens:liste_biens_client' %}" class="cta-btn">View More</a>
+            </div>
+            <div class="property-card">
+                <img src="https://img.freepik.com/photos-premium/charme-rustique-ferme-vintage-pignon-porche-alteres-niche-dans-environnement-rural-concept-decor-rustique-style-ferme-inspiration-vintage-vie-campagne-esthetique-alteree_918839-76569.jpg?uid=R139075755&ga=GA1.1.1818223811.1739516928&semt=ais_hybrid" alt="Rustic Farmhouse">
+                <h3>Rustic Farmhouse</h3>
+                <p>$1,800/month | 4 Bedrooms</p>
+                <a href="{% url 'biens:liste_biens_client' %}" class="cta-btn">View More</a>
+            </div>
+            <div class="property-card">
+                <img src="https://img.freepik.com/photos-premium/loft-elegant-dans-environnement-urbain-anime_925707-4412.jpg?uid=R139075755&ga=GA1.1.1818223811.1739516928&semt=ais_hybrid" alt="City Loft">
+                <h3>City Loft</h3>
+                <p>$2,200/month | 2 Bedrooms</p>
+                <a href="{% url 'biens:liste_biens_client' %}" class="cta-btn">View More</a>
+            </div>
+            <div class="property-card">
+                <img src="https://img.freepik.com/photos-premium/maison-est-marche-pour-15-millions_1221953-13937.jpg" alt="Luxury Villa">
+                <h3>Luxury Villa</h3>
+                <p>$1,500/month | 10 Bedrooms</p>
+                <a href="{% url 'biens:liste_biens_client' %}" class="cta-btn">View More</a>
+            </div>
+        </div>
+    </div>
+ 
+    
+ 
+    <section id="services">
+        <div class="services-wrapper">
+            <h2 style="font-size: 40px; color: #1f2937; margin-bottom: 50px;">Our Services</h2>
+            <div class="services-container">
+            
+            <!-- Service 1 -->
+            <div class="service-card">
+              <img src="https://img.freepik.com/photos-premium/vue-angle-bas-homme-utilisant-telephone-intelligent-contre-batiment_1048944-26081333.jpg" alt="Property Sales">
+              <div class="service-content">
+                <h3>Property Sales</h3>
+                <p>We assist you in buying and selling properties efficiently and transparently.</p>
+              </div>
+            </div>
+      
+            <!-- Service 2 -->
+            <div class="service-card">
+              <img src="https://img.freepik.com/photos-gratuite/agent-immobilier-au-travail-montrant-maison-faisant-affaires_23-2150164731.jpg" alt="Property Rentals">
+              <div class="service-content">
+                <h3>Property Rentals</h3>
+                <p>Find the perfect rental property that suits your needs and budget.</p>
+              </div>
+            </div>
+      
+            <!-- Service 3 -->
+            <div class="service-card">
+              <img src="https://img.freepik.com/photos-premium/salesman-hands-on-house-model-small-toy-house-small-mortgage-property-insurance-and-concepts-real-estate_533878-1616.jpg" alt="Property Management">
+              <div class="service-content">
+                <h3>Property Management</h3>
+                <p>Comprehensive management services to keep your property in top condition.</p>
+              </div>
+            </div>
+      
+          </div>
+        </div>
+      </section>
+      
+
+
+    
+    <!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<!-- Contact Section -->
+<section id="contact" style="background: #f9f9f9; padding: 80px 20px; font-family: 'Poppins', sans-serif;">
+    <div style="max-width: 1100px; margin: auto; display: flex; flex-wrap: wrap; gap: 50px; align-items: stretch; justify-content: center;">
+  
+      <!-- Form Card -->
+      <div style="flex: 1 1 500px; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 12px 30px rgba(0,0,0,0.08); transition: 0.3s ease;">
+        <h2 style="font-size: 40px; color: #1f2937; margin-bottom: 50px;">Contact Us</h2>
+        <p style="color: #555; margin-bottom: 30px;">We’d love to hear from you. Reach out to us anytime.</p>
+        <form style="display: flex; flex-direction: column; gap: 20px;">
+          <input type="text" placeholder="Your Name" required
+                 style="padding: 15px; border: 1px solid #ddd; border-radius: 10px; font-size: 16px;">
+          <input type="email" placeholder="Your Email" required
+                 style="padding: 15px; border: 1px solid #ddd; border-radius: 10px; font-size: 16px;">
+          <textarea placeholder="Your Message" rows="5" required
+                    style="padding: 15px; border: 1px solid #ddd; border-radius: 10px; font-size: 16px;"></textarea>
+          <button type="submit"
+                  style="padding: 15px; background: linear-gradient(to right, #6c5ce7, #00b894); color: white; font-weight: 600; border: none; border-radius: 10px; font-size: 16px; cursor: pointer; transition: transform 0.2s;">
+            Send Message
+          </button>
+        </form>
+      </div>
+  
+      <!-- Image Card -->
+      <div style="flex: 1 1 450px; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 12px 30px rgba(0,0,0,0.08); text-align: center; display: flex; align-items: center; justify-content: center;">
+        <img src="https://img.freepik.com/vecteurs-libre/support-client-illustration-design-plat_23-2148887720.jpg?uid=R139075755&ga=GA1.1.1834963810.1743916573&semt=ais_hybrid&w=740"
+             alt="Contact illustration"
+             style="max-width: 100%; border-radius: 15px;">
+      </div>
+  
+    </div>
+  </section>
+
+  <section class="about-us">
+    <div class="container">
+        <div class="about-content">
+            <div class="about-image">
+                <img src="  https://img.freepik.com/photos-premium/image-silhouette-du-groupe-gens-affaires-fond-ville_31965-22438.jpg?uid=R139075755&ga=GA1.1.1834963810.1743916573&semt=ais_hybrid&w=740
+                " alt="Image élégante" />
+            </div>
+            <div class="about-text">
+                <h2 style="font-size: 40px; color: #1f2937; margin-bottom: 50px;">About Us</h2>
+                <p>We are a team passionate about property management, offering innovative solutions to help you find your ideal property. We believe in transparency, honesty, and excellence in service.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+    
+    <!-- Footer -->
+    <!-- Footer -->
+<footer class="footer">
+    <div class="footer-container">
+        <!-- Logo Section -->
+        <div class="logo-section">
+            <img src="{% static 'images/logo4.png' %}" alt="Logo" class="logo-img">
+            <span class="logo-elegantlogo">ImmoManager</span>
+            <p>Your trusted partner in property management.</p>
+        </div>
+        
+        <!-- Useful Links Section -->
+        <div class="footer-section links">
+            <h4>Useful links</h4>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="{% url 'biens:liste_biens_client' %}">Properties</a></li>
+                <li><a href="/utilisateurs/client">Clients</a></li>
+                <li><a href="#contact" >Contact</a></li>
+            </ul>
+        </div>
+
+        <!-- Social Media Section -->
+        <div class="footer-section social">
+            <h4>Follow us</h4>
+            <div class="social-icons">
+                <a href="https://www.facebook.com/facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://twitter.com/X"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.instagram.com/instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/company/linkedin"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Bottom Section -->
+    <div class="footer-bottom">
+        <p>&copy; 2025 ImmoManager. All rights reserved.</p>
+    </div>
+</footer>
+
+    
+    
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+
+
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+</html>

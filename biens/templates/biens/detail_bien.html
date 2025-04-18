@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ bien.title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #6c5ce7;
+    }
+
+    .btn-gradient {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .btn-gradient:hover {
+      background: #5b4ad8;
+      color: #fff;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body style="background-color: #f1f5f9;">
+
+<div class="container mt-5 mb-5">
+  <div class="card shadow-lg p-4 border-0 rounded-4 position-relative" style="background-color: #ffffff;">
+    <div class="card-body text-center">
+
+      <!-- Close Button (Top Right) -->
+      <a href="{% url 'biens:liste_biens_client' %}" 
+         class="btn btn-outline-secondary position-absolute top-0 end-0 m-3 rounded-circle" 
+         style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;"
+         title="Close">
+        <i class="bi bi-x-lg"></i>
+      </a>
+
+      <!-- Title -->
+      <h2 class="mb-4" style="font-family: 'Poppins', sans-serif; font-weight: 700; color: #2c3e50;">
+        {{ bien.title }}
+      </h2>
+
+      <!-- Photos -->
+      {% if bien.photos.all %}
+      <div style="display: flex; overflow-x: scroll; gap: 15px;">
+        {% for photo in bien.photos.all %}
+          <div style="width: 250px; height: 200px; border-radius: 1.5rem; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+            <img 
+              src="{{ photo.image.url }}" 
+              alt="{{ bien.title }}" 
+              style="width: 100%; height: 100%; object-fit: cover; border-radius: 1.5rem; cursor: pointer;" 
+              data-bs-toggle="modal" data-bs-target="#imageModal"
+              data-bs-slide-to="{{ forloop.counter0 }}">
+          </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="bg-secondary text-white text-center py-5 rounded-4">
+        No Images Available
+      </div>
+      {% endif %}
+
+      <!-- Modal Fullscreen Carousel -->
+      <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+          <div class="modal-content bg-black text-white">
+            <div class="modal-header border-0">
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+              <div id="carouselImages" class="carousel slide" data-bs-ride="carousel" data-bs-touch="true">
+                <div class="carousel-inner">
+                  {% for photo in bien.photos.all %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                      <img src="{{ photo.image.url }}" class="d-block w-100" style="height: 100vh; object-fit: contain;" alt="Image">
+                    </div>
+                  {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselImages" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselImages" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Property Details -->
+      <div class="row my-5" style="background-color: #ffffff; padding: 25px; border-radius: 1rem; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+        <div class="col-md-6 text-start" style="line-height: 1.8;">
+          <p><i class="bi bi-house-door-fill" style="color: var(--primary-color); font-size: 1.2rem;"></i> <strong>Type:</strong> {{ bien.type }}</p>
+          <p><i class="bi bi-currency-euro" style="color: green; font-size: 1.2rem;"></i> <strong>Price:</strong> {{ bien.price }} €</p>
+          <p><i class="bi bi-fullscreen" style="color: orange; font-size: 1.2rem;"></i> <strong>Area:</strong> {{ bien.area }} m²</p>
+          <p><i class="bi bi-geo-alt-fill" style="color: red; font-size: 1.2rem;"></i> <strong>City:</strong> {{ bien.city }}</p>
+          <p><i class="bi bi-geo-alt-fill" style="color: red; font-size: 1.2rem;"></i> <strong>Address:</strong> {{ bien.address }}</p>
+          <p><i class="bi bi-calendar-event" style="color: red; font-size: 1.2rem;"></i> <strong>Added on:</strong> {{ bien.added_on }}</p>
+        </div>
+        <div class="col-md-6 text-start" style="line-height: 1.8;">
+          <p><i class="bi bi-door-open-fill" style="color: red; font-size: 1.2rem;"></i> <strong>Bedrooms:</strong> {{ bien.bedroom }}</p>  
+          <p><i class="bi bi-info-circle-fill" style="color: dodgerblue; font-size: 1.2rem;"></i> <strong>Description:</strong><br> {{ bien.description }}</p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="mt-4 d-flex flex-column flex-md-row justify-content-center gap-3">
+        <a href="{% url 'index'  %}" class="btn btn-gradient">
+          <i class="bi bi-person-lines-fill me-2"></i>Contact an Agent
+        </a>
+        <a href="{% url 'rendezvous:prendre_rdv' %}?show_rdv=true" class="btn btn-gradient">
+          <i class="bi bi-calendar-check me-2"></i>Schedule a Visit
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
+
+  

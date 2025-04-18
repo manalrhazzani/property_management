@@ -1,0 +1,11 @@
+<!-- templates/partials/_navbar_role.html -->
+<nav>
+    {% if user.is_superuser %}
+      <a href="{% url 'admin_dashboard' %}">Tableau de bord Admin</a>
+    {% elif user.agent %}
+      <a href="{% url 'agent_dashboard' %}">Tableau de bord Agent</a>
+    {% elif user.client %}
+      <a href="{% url 'client_dashboard' %}">Tableau de bord Client</a>
+    {% endif %}
+  </nav>
+  

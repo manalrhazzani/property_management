@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Détails du client : {{ client.nom }} {{ client.prenom }}</h2>
+
+    <div>
+        <h4>Email : {{ client.email }}</h4>
+        <h4>Téléphone : {{ client.telephone }}</h4>
+        <h4>Type de client : {{ client.type_client }}</h4>
+    </div>
+
+    <h3>Biens associés</h3>
+    <ul>
+        {% for bien in client.biens.all %}
+            <li>{{ bien.nom }}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'client_edit' client.id %}" class="btn btn-warning">Modifier ce client</a>
+    <a href="{% url 'client_delete' client.id %}" class="btn btn-danger">Supprimer ce client</a>
+</div>
+
+<h3>Interactions</h3>
+<ul>
+  {% for interaction in client.interactions.all %}
+    <li>{{ interaction.type_interaction }}: {{ interaction.commentaire }} ({{ interaction.date }})</li>
+  {% empty %}
+    <li>Aucune interaction enregistrée.</li>
+  {% endfor %}
+</ul>
+
+
+{% endblock %}

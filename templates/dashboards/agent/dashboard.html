@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="agent-dashboard">
+    <h2>Vos biens assignés</h2>
+    <div class="assigned-properties">
+        <!-- Liste des biens gérés par l'agent -->
+        {% for bien in biens_assignes %}
+            <div class="property-card">
+                <h4>{{ bien.titre }}</h4>
+                <p>Statut : {{ bien.statut }}</p>
+            </div>
+        {% empty %}
+            <p>Aucun bien assigné pour le moment.</p>
+        {% endfor %}
+    </div>
+</div>
+ 
+{% endblock %}

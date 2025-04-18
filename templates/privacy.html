@@ -1,0 +1,106 @@
+{% extends 'base.html' %}  <!-- Si tu utilises un template de base -->
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Politique de Confidentialité - ImmoManager</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #e30059;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #2c3e50;
+            margin-top: 25px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        .last-updated {
+            text-align: right;
+            font-style: italic;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <h1>Politique de Confidentialité</h1>
+    <p class="last-updated">Dernière mise à jour : {% now "j F Y" %}</p>
+
+    <h2>1. Introduction</h2>
+    <p>ImmoManager ("nous", "notre", "nos") s'engage à protéger la vie privée de ses utilisateurs. Cette politique explique comment nous collectons, utilisons et protégeons vos informations personnelles lorsque vous utilisez notre plateforme immobilière.</p>
+
+    <h2>2. Données que nous collectons</h2>
+    <p>Nous pouvons collecter :</p>
+    <ul>
+        <li>Informations d'inscription (nom, email, téléphone)</li>
+        <li>Données de profil (préférences immobilières, recherches)</li>
+        <li>Informations sur les propriétés (si vous êtes un agent)</li>
+        <li>Données de navigation (adresse IP, cookies)</li>
+    </ul>
+
+    <h2>3. Utilisation des données</h2>
+    <p>Vos données servent à :</p>
+    <ul>
+        <li>Fournir et personnaliser nos services</li>
+        <li>Faciliter les transactions immobilières</li>
+        <li>Améliorer notre plateforme</li>
+        <li>Envoyer des communications pertinentes (optionnel)</li>
+    </ul>
+
+    <h2>4. Partage des données</h2>
+    <p>Nous ne vendons pas vos données. Elles peuvent être partagées avec :</p>
+    <ul>
+        <li>Agents immobiliers (pour les demandes de visite)</li>
+        <li>Prestataires techniques (hébergement, maintenance)</li>
+        <li>Autorités légales (si requis par la loi)</li>
+    </ul>
+
+    <h2>5. Cookies et suivi</h2>
+    <p>Nous utilisons des cookies pour :</p>
+    <ul>
+        <li>Authentification et sécurité</li>
+        <li>Analyse d'audience (Google Analytics)</li>
+        <li>Mémoriser vos préférences</li>
+    </ul>
+    <p>Vous pouvez désactiver les cookies dans les paramètres de votre navigateur.</p>
+
+    <h2>6. Sécurité des données</h2>
+    <p>Nous implémentons des mesures techniques et organisationnelles (chiffrement, accès restreint) pour protéger vos données contre tout accès non autorisé.</p>
+
+    <h2>7. Vos droits</h2>
+    <p>Conformément au RGPD, vous pouvez :</p>
+    <ul>
+        <li>Accéder à vos données</li>
+        <li>Demander leur rectification</li>
+        <li>Demander leur suppression</li>
+        <li>Retirer votre consentement</li>
+    </ul>
+    <p>Pour exercer ces droits, contactez-nous à : <strong>privacy@immomanager.com</strong></p>
+
+    <h2>8. Modifications de cette politique</h2>
+    <p>Nous pouvons mettre à jour cette politique. Les changements seront notifiés par email ou via notre plateforme.</p>
+
+    <h2>9. Nous contacter</h2>
+    <p>Pour toute question :</p>
+    <address>
+        ImmoManager SAS<br>
+        123 Rue Immobilière, 75000 Paris<br>
+        Email : privacy@immomanager.com<br>
+        Tél : +33 1 23 45 67 89
+    </address>
+</body>
+</html>
+{% endblock %}

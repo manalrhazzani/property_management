@@ -1,0 +1,382 @@
+{% load static %}
+{% block content %}
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        background: #eef2f7;
+    }
+    
+    .signup-section {
+        background: url('{% static "images/real-estate-bg.jpg" %}') no-repeat center center/cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 4rem 0;
+    }
+    
+    .container {
+        width: 100%;
+        max-width: 1100px;
+        padding: 0 2rem;
+    }
+    
+    .signup-content {
+        display: flex;
+        background: #fff;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .signup-form-container {
+        flex: 1;
+        padding: 3rem;
+    }
+    
+    .signup-form-container h2 {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+        text-align: center;
+        color: #2c3e50;
+    }
+    
+    .input-group {
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+    
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+    
+    input, select {
+        width: 100%;
+        padding: 0.8rem;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+    }
+    
+    input:focus, select:focus {
+        border-color: #3498db;
+        background-color: #f9f9f9;
+        outline: none;
+    }
+    
+    .input-icon {
+        position: absolute;
+        right: 10px;
+        top: 38px;
+        color: #aaa;
+    }
+    
+    .error {
+        color: red;
+        font-size: 0.85rem;
+        margin-top: 0.3rem;
+    }
+    
+    .hint {
+        font-size: 0.75rem;
+        color: #888;
+    }
+    
+    .password-strength {
+        height: 6px;
+        width: 100%;
+        background-color: #eee;
+        border-radius: 4px;
+        margin-top: 5px;
+    }
+    
+    .strength-meter {
+        height: 100%;
+        width: 0%;
+        border-radius: 4px;
+        transition: 0.4s ease;
+    }
+    
+     
+    
+    button[type="submit"] {
+        width: 100%;
+        padding: 1rem;
+        background: linear-gradient(45deg, #3498db, #2980b9);
+        color: #fff;
+        font-weight: bold;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    button[type="submit"]:hover {
+        background: linear-gradient(45deg, #2980b9, #2471a3);
+    }
+    
+    .login-link {
+        text-align: center;
+        margin-top: 1rem;
+    }
+    
+    .login-link a {
+        color: #3498db;
+        text-decoration: none;
+    }
+    
+    .image-container {
+        flex: 1;
+        max-width: 500px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+    }
+    
+    .signup-image {
+        width: 150%;
+        height: 90%;
+        border-radius: 10px;
+    }
+  /* Styling for the terms section */
+.terms-group {
+    display: flex;
+    align-items: center;  /* Align checkbox and text horizontally */
+    font-size: 16px;
+    color: #555;
+    margin-top: 1.5rem;
+    padding: 10px 0;
+}
+
+/* Styling for the checkbox */
+.terms-group input[type="checkbox"] {
+    accent-color: #3498db; /* Custom color for the checkbox */
+    width: 25px;
+    height: 25px;
+    margin-right: 10px; /* Space between checkbox and text */
+    cursor: pointer;
+    transition: all 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Hover effect for checkbox */
+.terms-group input[type="checkbox"]:hover {
+    transform: scale(1.1); /* Slight zoom effect on hover */
+}
+
+/* Styling for the label */
+.terms-group label {
+    display: inline-block;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Styling for links inside the label */
+.terms-group a {
+    color: #3498db; /* Link color */
+    text-decoration: none; /* Remove underline */
+    font-weight: bold;
+    transition: all 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Hover effect for links */
+.terms-group a:hover {
+    text-decoration: underline;
+    color: #2980b9; /* Change color on hover */
+}
+
+/* Focused state for the checkbox */
+.terms-group input[type="checkbox"]:focus {
+    outline: 2px solid #3498db; /* Blue outline when focused */
+}
+
+/* Adding a subtle border around the terms */
+.terms-group {
+    border-top: 1px solid #ddd; /* Light top border */
+    padding-top: 15px;
+    margin-top: 20px;
+    border-bottom: 1px solid #ddd; /* Light bottom border */
+}
+
+
+
+
+    
+    </style>
+<section class="signup-section">
+    <div class="container">
+        <div class="signup-content">
+
+            <!-- Signup Form -->
+            <div class="signup-form-container">
+                <h2>Create Your Account</h2>
+                <form method="post" id="signupForm">
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <div class="form-errors">
+                            {% for error in form.non_field_errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <!-- First Name -->
+                    <div class="input-group">
+                        <label for="id_first_name">First Name</label>
+                        <input type="text" name="first_name" id="id_first_name"
+                            placeholder="John" required
+                            value="{{ form.first_name.value|default_if_none:'' }}">
+                        <i class="fas fa-user input-icon"></i>
+                        {% for error in form.first_name.errors %}
+                            <span class="error">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Last Name -->
+                    <div class="input-group">
+                        <label for="id_last_name">Last Name</label>
+                        <input type="text" name="last_name" id="id_last_name"
+                            placeholder="Doe" required
+                            value="{{ form.last_name.value|default_if_none:'' }}">
+                        <i class="fas fa-user input-icon"></i>
+                        {% for error in form.last_name.errors %}
+                            <span class="error">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Username -->
+                    <div class="input-group">
+                        <label for="id_username">Username</label>
+                        <input type="text" name="username" id="id_username"
+                            placeholder="johndoe123" required
+                            value="{{ form.username.value|default_if_none:'' }}">
+                        <i class="fas fa-user-circle input-icon"></i>
+                        {% for error in form.username.errors %}
+                            <span class="error">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Email -->
+                    <div class="input-group">
+                        <label for="id_email">Email</label>
+                        <input type="email" name="email" id="id_email"
+                            placeholder="john@example.com" required
+                            value="{{ form.email.value|default_if_none:'' }}">
+                        <i class="fas fa-envelope input-icon"></i>
+                        {% for error in form.email.errors %}
+                            <span class="error">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Telephone -->
+                    <div class="input-group">
+                        <label for="id_telephone">Phone Number</label>
+                        <input type="tel" name="phone" id="id_telephone"
+                            placeholder="+1234567890" required
+                            value="{{ form.phone.value|default_if_none:'' }}">
+                        <i class="fas fa-phone input-icon"></i>
+                        {% for error in form.phone.errors %}
+                            <span class="error">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Role -->
+<div class="input-group">
+    <label for="id_role">Select your role</label>
+    <select name="role" id="id_role" required>
+        {% for key, value in form.role.field.choices %}
+            <option value="{{ key }}" {% if form.role.value == key %}selected{% endif %}>
+                {{ value }}
+            </option>
+        {% endfor %}
+    </select>
+    
+    {% if form.role.errors %}
+        <div class="error">
+            {% for error in form.role.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+
+                    <!-- Password -->
+                    <div class="input-group">
+                        <label for="id_password1">Password</label>
+                        <input type="password" name="password1" id="id_password1"
+                            placeholder="********" required
+                            oninput="checkPasswordStrength(this.value)">
+                        <i class="fas fa-lock input-icon"></i>
+                        <div class="password-strength">
+                            <div class="strength-meter" id="passwordStrength"></div>
+                        </div>
+                        {% for error in form.password1.errors %}
+                            <span class="error">{{ error }}</span>
+                        {% endfor %}
+                        <small class="hint">Minimum 8 characters with letters, numbers & symbols.</small>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="input-group">
+                        <label for="id_password2">Confirm Password</label>
+                        <input type="password" name="password2" id="id_password2"
+                            placeholder="Repeat password" required>
+                        <i class="fas fa-lock input-icon"></i>
+                        {% for error in form.password2.errors %}
+                            <span class="error">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+
+                  <!-- Terms -->
+<div class="terms-group">
+    <input type="checkbox" name="terms" id="id_terms" required>
+    <label for="id_terms">
+        I agree to the <a href="{% url 'terms' %}" target="_blank">Terms</a> and
+        <a href="{% url 'privacy' %}" target="_blank">Privacy Policy</a>.
+    </label>
+</div>
+
+
+
+
+                    <!-- Submit -->
+                    <button type="submit">Sign Up</button>
+
+                    <div class="login-link">
+                        Already have an account? <a href="{% url 'login' %}">Log In</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Right Side Image -->
+            <div class="image-container">
+                <img src="https://img.freepik.com/vecteurs-libre/illustration-concept-connexion-mobile_114360-83.jpg?uid=R139075755&ga=GA1.1.1834963810.1743916573&semt=ais_hybrid&w=740"
+                    alt="Security Illustration" class="signup-image">
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<script>
+    function checkPasswordStrength(password) {
+        const meter = document.getElementById('passwordStrength');
+        let strength = 0;
+        if (password.length >= 8) strength++;
+        if (password.length >= 12) strength++;
+        if (/[a-z]/.test(password)) strength++;
+        if (/[A-Z]/.test(password)) strength++;
+        if (/[0-9]/.test(password)) strength++;
+        if (/[^A-Za-z0-9]/.test(password)) strength++;
+        meter.style.width = (strength / 6) * 100 + '%';
+        meter.style.backgroundColor = strength <= 2 ? '#e74c3c' : strength <= 4 ? '#f1c40f' : '#2ecc71';
+    }
+</script>
+
+
+
+{% endblock %}

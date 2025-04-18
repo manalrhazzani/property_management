@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<a href="{% url 'ajouter_rendezvous' %}" class="btn btn-primary mb-3">Ajouter un rendez-vous</a>
+
+<!-- Ajout du bouton Calendrier -->
+<a href="{% url 'calendrier_rendezvous' %}" class="btn btn-info mb-3">Voir le Calendrier</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Client</th>
+            <th>Bien</th>
+            <th>Date</th>
+            <th>Heure</th>
+            <th>Statut</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for rv in rendezvous %}
+        <tr>
+            <td>{{ rv.client }}</td>
+            <td>{{ rv.bien }}</td>
+            <td>{{ rv.date }}</td>
+            <td>{{ rv.heure }}</td>
+            <td>{{ rv.statut }}</td>
+            <td>
+                <a href="{% url 'modifier_rendezvous' rv.id %}" class="btn btn-warning btn-sm">Modifier</a>
+                <a href="{% url 'supprimer_rendezvous' rv.id %}" class="btn btn-danger btn-sm">Supprimer</a>
+
+                {% if rv.statut == 'Prévu' %}
+                    <a href="{% url 'changer_statut_rdv' rv.pk 'Réalisé' %}" class="btn btn-success btn-sm">Réalisé</a>
+                    <a href="{% url 'changer_statut_rdv' rv.pk 'Annulé' %}" class="btn btn-danger btn-sm">Annulé</a>
+                {% else %}
+                    {{ rv.statut }}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

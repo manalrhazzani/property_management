@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+  <h2 class="mb-4 text-center" style="color: #1a1a1a ; letter-spacing: 2px; text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);"> Explore Real Estate Listings</h2>
+
+  <!-- Search Form -->
+  <form method="GET" action="{% url 'biens:recherche_biens_client' %}" class="row g-3 mb-5 p-4 rounded-3 shadow-lg" style="background: #fff; border: 1px solid #ddd; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+    <div class="col-md-3">
+      <input type="text" name="city" placeholder="City" class="form-control" value="{{ request.GET.city }}" style="border-radius: 1.5rem; border: 1px solid #ddd;">
+    </div>
+    <div class="col-md-3">
+      <select name="type" class="form-select" style="border-radius: 1.5rem; border: 1px solid #ddd;">
+        <option value="">Type</option>
+        <option value="house" {% if request.GET.type == "house" %}selected{% endif %}>House</option>
+        <option value="apartment" {% if request.GET.type == "apartment" %}selected{% endif %}>Apartment</option>
+        <option value="land" {% if request.GET.type == "land" %}selected{% endif %}>Land</option>
+        <option value="office" {% if request.GET.type == "office" %}selected{% endif %}>Office</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <input type="number" name="max_price" class="form-control" placeholder="Max Price" value="{{ request.GET.max_price }}" style="border-radius: 1.5rem; border: 1px solid #ddd;">
+    </div>
+    <div class="col-md-2">
+      <input type="number" name="min_bedrooms" class="form-control" placeholder="Min Bedrooms" value="{{ request.GET.min_bedrooms }}" style="border-radius: 1.5rem; border: 1px solid #ddd;">
+    </div>
+    <div class="col-md-2 d-grid">
+      <button type="submit" class="btn btn-primary" style="border-radius: 1.5rem; padding: 12px; font-weight: 600; border: none;">Search</button>
+    </div>
+  </form>
+
+  <!-- Property Cards -->
+  {% if biens %}
+  <div class="row">
+    {% for bien in biens %}
+    <div class="col-md-4 mb-4">
+      <div class="card property-card h-100 border-0 shadow-sm" style="border-radius: 1.5rem;">
+        {% if bien.photo %}
+        <img src="{{ bien.photo.url }}" alt="{{ bien.title }}" class="card-img-top property-img" style="border-top-left-radius: 1.5rem; border-top-right-radius: 1.5rem;">
+        {% else %}
+        <div class="bg-secondary text-white text-center py-5" style="border-top-left-radius: 1.5rem; border-top-right-radius: 1.5rem;">No Image</div>
+        {% endif %}
+        <div class="card-body" style="padding: 1.5rem;">
+          <h5 class="card-title" style="color: #333;">{{ bien.title }}</h5>
+          <p class="card-text" style="color: #777; font-size: 0.95rem;">
+            <strong>Type:</strong> {{ bien.type }}<br>
+            <strong>Status:</strong> {{ bien.status }}<br>
+            <strong>Price:</strong> {{ bien.price }} Dh<br>
+            <strong>city:</strong> {{ bien.city }} <br>
+             
+          </p>
+        </div>
+        <div class="card-footer bg-white text-end" style="border-bottom-left-radius: 1.5rem; border-bottom-right-radius: 1.5rem;">
+          <a href="{% url 'biens:detail_bien' bien.id %}" class="btn btn-outline-primary" style="border-radius: 1.5rem; padding: 8px 16px; font-weight: 500;">View Details</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="alert alert-warning text-center mt-5">
+    No properties match your search.
+  </div>
+  {% endif %}
+</div>
+
+<style>
+  .btn-primary {
+    background-color: #6c5ce7;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 1.5rem;
+    border: none;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background-color: #5c4ec7;
+  }
+
+  .property-img {
+    height: 220px;
+    object-fit: cover;
+  }
+
+  .property-card {
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .property-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-outline-primary {
+    color: #6c5ce7;
+    border-color: #6c5ce7;
+    border-radius: 1.5rem;
+    padding: 8px 16px;
+    font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .btn-outline-primary:hover {
+    background-color: #6c5ce7;
+    color: #fff;
+  }
+</style>
+{% endblock %}

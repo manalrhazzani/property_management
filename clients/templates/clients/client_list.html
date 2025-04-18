@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Liste des Clients</h2>
+    <a href="{% url 'client_add' %}" class="btn btn-primary mb-3">Ajouter un client</a>
+
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                <th>Type de client</th>
+                <th>Bien associé</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for client in clients %}
+            <tr>
+                <td>{{ client.nom }}</td>
+                <td>{{ client.prenom }}</td>
+                <td>{{ client.email }}</td>
+                <td>{{ client.telephone }}</td>
+                <td>{{ client.type_client }}</td>
+                <td>
+                    {% if client.bien %}
+                        {{ client.bien.titre }}  <!-- Affichage du nom du bien associé -->
+                    {% else %}
+                        Aucun bien associé
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'client_detail' client.id %}" class="btn btn-info">Détails</a>
+                    <a href="{% url 'client_edit' client.id %}" class="btn btn-warning">Modifier</a>
+                    <a href="{% url 'client_delete' client.id %}" class="btn btn-danger">Supprimer</a>
+                    <a href="{% url 'ajouter_interaction' client.id %}" class="btn btn-success">Ajouter une interaction</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

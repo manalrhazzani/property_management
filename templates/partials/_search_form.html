@@ -1,0 +1,16 @@
+<!-- templates/partials/_search_form.html -->
+<form method="GET" action="{% url 'search' %}" class="search-form">
+    <div class="form-group">
+        <input type="text" name="q" placeholder="Rechercher un bien...">
+    </div>
+    <div class="form-group">
+        <select name="type">
+            <option value="">Tous types</option>
+            <option value="maison">Maison</option>
+            <option value="appartement">Appartement</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-search">
+        <i class="fas fa-search"></i> Rechercher
+    </button>
+</form>

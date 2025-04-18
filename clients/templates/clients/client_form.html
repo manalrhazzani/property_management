@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">{% if client %}Modifier{% else %}Ajouter{% endif %} un client</h2>
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="nom">Nom</label>
+            <input type="text" class="form-control" id="nom" name="nom" value="{% if client %}{{ client.nom }}{% endif %}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="prenom">Prénom</label>
+            <input type="text" class="form-control" id="prenom" name="prenom" value="{% if client %}{{ client.prenom }}{% endif %}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" value="{% if client %}{{ client.email }}{% endif %}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="telephone">Numéro de téléphone</label>
+            <input type="tel" class="form-control" id="telephone" name="telephone" value="{% if client %}{{ client.telephone }}{% endif %}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="type_client">Type de client</label>
+            <select class="form-control" id="type_client" name="type_client" required>
+                <option value="Acheteur" {% if client and client.type_client == 'Acheteur' %}selected{% endif %}>Acheteur</option>
+                <option value="Locataire" {% if client and client.type_client == 'Locataire' %}selected{% endif %}>Locataire</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="bien">Bien associé</label>
+            <select class="form-control" id="bien" name="bien">
+                <option value="">Aucun bien associé</option>
+                {% for bien in biens %}
+                    <option value="{{ bien.id }}" {% if client and client.bien == bien %}selected{% endif %}>{{ bien.titre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">{% if client %}Modifier{% else %}Ajouter{% endif %}</button>
+    </form>
+</div>
+{% endblock %}
